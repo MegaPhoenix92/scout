@@ -37,6 +37,8 @@ dependencies = [
     "scrapling[fetchers]>=0.4",
     "click>=8.3.0",
     "orjson>=3.11.0",
+    "mcp>=1.24.0",
+    "pydantic>=2.11.0",
 ]
 
 [project.optional-dependencies]

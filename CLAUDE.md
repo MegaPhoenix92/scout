@@ -102,6 +102,76 @@ report = agent.research("AI robotics challenges")
 path = agent.research_and_save("quantum computing trends")
 ```
 
+## MCP Server (Tool Use)
+
+Scout exposes its own MCP server so other agents can use it as a tool:
+
+```bash
+# stdio mode (for Claude Code, agent-gateway, nous, etc.)
+scout mcp
+
+# HTTP mode (for web clients, multi-agent systems)
+scout mcp --http --port 8001
+```
+
+### MCP Tools
+
+| Tool | Description |
+|------|-------------|
+| `scout_research` | Full autonomous research pipeline on any topic |
+| `scout_search_hackernews` | Search Hacker News stories |
+| `scout_search_github` | Search GitHub repositories |
+| `scout_scrape_url` | Scrape a URL and extract content + pain points |
+| `scout_generate_queries` | Generate search queries for planning |
+
+### MCP Configuration
+
+Add Scout to any agent's `.mcp.json`:
+
+```json
+{
+  "mcpServers": {
+    "scout": {
+      "command": "/Users/chrisozsvath/Projects/TROZLAN/TROZLANIO/scout/.venv/bin/scout",
+      "args": ["mcp"]
+    }
+  }
+}
+```
+
+Or for HTTP mode:
+
+```json
+{
+  "mcpServers": {
+    "scout": {
+      "url": "http://localhost:8001"
+    }
+  }
+}
+```
+
+### MCP Tool Examples
+
+```python
+# From any MCP client (Claude Code, nous, agent-gateway):
+
+# Full research
+scout_research(topic="AI robotics challenges", depth="deep")
+
+# Quick HN search
+scout_search_hackernews(query="robotics startup failure", num_results=25)
+
+# GitHub project search
+scout_search_github(query="robot operating system", num_results=10)
+
+# Scrape specific article
+scout_scrape_url(url="https://example.com/article")
+
+# Plan queries before running
+scout_generate_queries(topic="quantum computing", depth="medium")
+```
+
 ## Agent Gateway Integration
 
 Scout is designed to be called from the TROZLAN agent-gateway as a research capability:

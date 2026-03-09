@@ -65,5 +65,36 @@ def quick(topic, depth):
     agent.research_and_save(topic)
 
 
+@main.command()
+@click.option("--http", is_flag=True, default=False,
+              help="Run MCP server in streamable-http transport instead of stdio")
+@click.option("--host", type=str, default="0.0.0.0",
+              help="Host for HTTP transport (default: 0.0.0.0)")
+@click.option("--port", type=int, default=8001,
+              help="Port for HTTP transport (default: 8001)")
+def mcp(http, host, port):
+    """Run Scout's MCP server for AI agent tool-use.
+
+    Exposes research tools via Model Context Protocol:
+
+    \b
+    Tools:
+      scout_research         — Full autonomous research pipeline
+      scout_search_hackernews — Search Hacker News
+      scout_search_github    — Search GitHub repositories
+      scout_scrape_url       — Scrape and extract from a URL
+      scout_generate_queries — Generate search queries for a topic
+
+    Examples:
+
+        scout mcp                          # stdio mode (for Claude, etc.)
+
+        scout mcp --http --port 8001       # HTTP mode
+    """
+    from scout.mcp_server import ScoutMCPServer
+    server = ScoutMCPServer()
+    server.serve(http, host, port)
+
+
 if __name__ == "__main__":
     main()
