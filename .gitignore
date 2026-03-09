@@ -1,0 +1,11 @@
+*.pyc
+__pycache__/
+*.egg-info/
+dist/
+build/
+.eggs/
+.venv/
+scout_report_*
+*.json
+!pyproject.toml
+
